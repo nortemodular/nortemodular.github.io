@@ -257,9 +257,10 @@
 
         .tech-card:hover .btn-plus {
             background: var(--primary);
-            color: varIf you are in dark mode: var(--bg-body) else white;
+            color: var(--bg-body); /* Correção: usa a cor de fundo do site para contraste */
             border-color: var(--primary);
             transform: rotate(90deg);
+        }
         }
         
         [data-theme="light"] .tech-card:hover .btn-plus { color: white; }
@@ -466,8 +467,33 @@
     <a href="https://wa.me/5531999227618" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
+    <div id="contact-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="toggleModal()"><i class="fas fa-times"></i></button>
+        
+        <div class="modal-header">
+            <h3><i class="fas fa-terminal"></i> INICIAR CONEXÃO</h3>
+            <p>Escolha o canal de comunicação para estruturar seu projeto.</p>
+        </div>
 
-    <script>
+        <div class="contact-options">
+            <a href="https://wa.me/5531999227618" target="_blank" class="contact-btn whatsapp">
+                <i class="fab fa-whatsapp"></i> Iniciar Chat Rápido
+            </a>
+
+            <div class="contact-btn email" onclick="copyEmail()">
+                <i class="fas fa-envelope"></i> 
+                <span id="email-text">contato@nortemodular.com.br</span>
+                <i class="fas fa-copy copy-icon"></i>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <p class="status-indicator"><span class="dot"></span> Sistema Online - Resposta em até 2h</p>
+        </div>
+    </div>
+</div>
+      <script>
         // Elementos do DOM
         const themeBtn = document.getElementById('theme-btn');
         const themeIcon = themeBtn.querySelector('i');
@@ -549,39 +575,25 @@ modal.addEventListener('click', (e) => {
 // Função Inteligente de Copiar E-mail
 function copyEmail() {
     const emailText = document.getElementById('email-text').innerText;
+    const container = document.querySelector('.contact-btn.email');
+    const originalContent = container.innerHTML;
+
     navigator.clipboard.writeText(emailText).then(() => {
-        alert('E-mail copiado para a área de transferência! 🚀');
+        // Feedback visual no próprio botão
+        container.style.borderColor = '#25D366'; // Fica verde
+        container.innerHTML = '<i class="fas fa-check"></i> <span>Copiado!</span>';
+        
+        // Restaura após 2 segundos
+        setTimeout(() => {
+            container.style.borderColor = ''; 
+            container.innerHTML = originalContent;
+        }, 2000);
     });
 }
     </script>
-    <div id="contact-modal" class="modal-overlay">
-    <div class="modal-content">
-        <button class="modal-close" onclick="toggleModal()"><i class="fas fa-times"></i></button>
-        
-        <div class="modal-header">
-            <h3><i class="fas fa-terminal"></i> INICIAR CONEXÃO</h3>
-            <p>Escolha o canal de comunicação para estruturar seu projeto.</p>
-        </div>
-
-        <div class="contact-options">
-            <a href="https://wa.me/5531999227618" target="_blank" class="contact-btn whatsapp">
-                <i class="fab fa-whatsapp"></i> Iniciar Chat Rápido
-            </a>
-
-            <div class="contact-btn email" onclick="copyEmail()">
-                <i class="fas fa-envelope"></i> 
-                <span id="email-text">contato@nortemodular.com.br</span>
-                <i class="fas fa-copy copy-icon"></i>
-            </div>
-        </div>
-
-        <div class="modal-footer">
-            <p class="status-indicator"><span class="dot"></span> Sistema Online - Resposta em até 2h</p>
-        </div>
-    </div>
-</div>
 </body>
 </html>
+
 
 
 
