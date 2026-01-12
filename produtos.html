@@ -15,14 +15,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
-        /* --- 1. DESIGN TOKENS (SISTEMA VISUAL) --- */
+        /* --- 1. DESIGN TOKENS --- */
         :root {
-            --primary: #00E5FF; /* Cyan Tech */
+            --primary: #00E5FF;
             --primary-dim: rgba(0, 229, 255, 0.1);
             --secondary: #94A3B8;
             --bg-body: #0B1116;
             --bg-card: rgba(18, 26, 33, 0.8);
-            --bg-drawer: rgba(0, 0, 0, 0.6);
             --text-main: #FFFFFF;
             --text-muted: #8899A6;
             --border: rgba(0, 229, 255, 0.15);
@@ -32,7 +31,6 @@
         [data-theme="light"] {
             --bg-body: #F0F4F8;
             --bg-card: rgba(255, 255, 255, 0.9);
-            --bg-drawer: rgba(240, 244, 248, 0.9);
             --text-main: #0F172A;
             --text-muted: #475569;
             --border: rgba(0, 152, 166, 0.2);
@@ -57,7 +55,7 @@
         ul { list-style: none; }
         a { text-decoration: none; color: inherit; cursor: pointer; }
 
-        /* --- 3. BACKGROUND GRID ANIMADO --- */
+        /* --- 3. BACKGROUND GRID --- */
         .bg-grid {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-image: 
@@ -67,7 +65,7 @@
             mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
         }
 
-        /* --- 4. HEADER (Consistente) --- */
+        /* --- 4. HEADER --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1.5rem 5%; border-bottom: 1px solid var(--border);
@@ -104,13 +102,12 @@
             background: var(--primary-dim);
         }
 
-        /* --- 6. MAIN PRODUCT GRID (2 CARDS) --- */
+        /* --- 6. MAIN PRODUCT GRID --- */
         .products-container {
             max-width: 1200px; margin: 0 auto; padding: 0 5% 6rem;
             display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
         }
 
-        /* Card Styles */
         .product-card {
             background: var(--bg-card); border: 1px solid var(--border);
             border-radius: 12px; overflow: hidden; position: relative;
@@ -122,31 +119,28 @@
             transform: translateY(-5px);
         }
         
-        /* Faixa decorativa no topo */
         .product-card::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
             background: linear-gradient(90deg, transparent, var(--primary), transparent);
             opacity: 0.5;
         }
 
-        .card-body { padding: 3rem 2.5rem; flex: 1; }
+        .card-body { padding: 3rem 2.5rem; flex: 1; display: flex; flex-direction: column; }
 
-        /* Tags de Status */
         .status-badge {
             font-size: 0.75rem; font-family: 'Space Grotesk'; font-weight: 700;
             text-transform: uppercase; letter-spacing: 1px; padding: 0.4rem 0.8rem;
             border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.5rem; align-self: flex-start;
         }
         .badge-order { border: 1px solid var(--primary); color: var(--primary); }
-        .badge-signature { border: 1px solid #FFD700; color: #FFD700; } /* Dourado para Signature */
+        .badge-signature { border: 1px solid #FFD700; color: #FFD700; }
 
         .card-title { font-size: 2rem; margin-bottom: 1rem; color: var(--text-main); }
         .card-text { color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem; font-size: 1.05rem; }
 
-        /* Listas de Aplicação */
         .app-list {
-            display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 3rem;
+            display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 3rem; margin-top: auto;
         }
         .app-item {
             background: rgba(255, 255, 255, 0.05); padding: 0.5rem 1rem;
@@ -156,13 +150,14 @@
         .product-card:hover .app-item { border-color: var(--border); }
         .app-item i { color: var(--primary); font-size: 0.8rem; }
 
-        /* Botões de Ação dos Cards */
+        /* Botões Estilo Link */
         .btn-card {
             width: 100%; padding: 1.2rem; background: var(--primary-dim);
             border: 1px solid var(--primary); color: var(--primary);
             font-family: 'Space Grotesk'; font-weight: 700; text-transform: uppercase;
             letter-spacing: 1px; cursor: pointer; transition: 0.3s;
             display: flex; justify-content: center; align-items: center; gap: 10px;
+            text-decoration: none; /* Garante que pareça botão */
         }
         .btn-card:hover {
             background: var(--primary); color: #000;
@@ -174,31 +169,7 @@
             border-color: #FFD700; color: #FFD700; background: rgba(255, 215, 0, 0.1);
         }
 
-        /* --- 7. ÁREA EXPANSÍVEL (GAVETA DE ESTOQUE) --- */
-        .stock-drawer {
-            background: var(--bg-drawer); border-top: 1px solid var(--border);
-            max-height: 0; overflow: hidden; transition: max-height 0.5s var(--ease);
-        }
-        .stock-content { padding: 2rem; }
-        .stock-title {
-            font-family: 'Space Grotesk'; font-size: 1.2rem; color: var(--primary); margin-bottom: 1rem;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .stock-list { display: flex; flex-direction: column; gap: 1rem; }
-        .stock-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem; border: 1px solid var(--border); border-radius: 6px;
-            background: rgba(0,0,0,0.2);
-        }
-        .item-info h4 { color: var(--text-main); font-size: 0.95rem; }
-        .item-info p { color: var(--text-muted); font-size: 0.8rem; }
-        .btn-small {
-            font-size: 0.8rem; padding: 0.5rem 1rem; border: 1px solid var(--primary);
-            color: var(--primary); border-radius: 4px; transition: 0.3s;
-        }
-        .btn-small:hover { background: var(--primary); color: #000; }
-
-        /* --- 8. FOOTER CTA --- */
+        /* --- 7. FOOTER CTA --- */
         .footer-cta {
             text-align: center; padding: 2rem 5%; margin-bottom: 4rem;
         }
@@ -211,7 +182,7 @@
         }
         .btn-struct:hover { letter-spacing: 1px; }
 
-        /* --- 9. MODAL & WHATSAPP (Mesmo da Home/Serviços) --- */
+        /* --- 8. WHATSAPP & MODAL --- */
         .whatsapp-float {
             position: fixed; bottom: 30px; right: 30px;
             background-color: #25D366; color: #FFFFFF !important;
@@ -254,7 +225,6 @@
         .contact-btn.whatsapp { border-left: 4px solid #25D366; }
         .contact-btn.email { border-left: 4px solid var(--primary); }
 
-        /* --- 10. RESPONSIVE --- */
         @media (max-width: 768px) {
             .products-container { grid-template-columns: 1fr; }
             .hero-title { font-size: 2rem; }
@@ -294,7 +264,7 @@
                 <h2 class="card-title">Módulos Habitacionais</h2>
                 <p class="card-text">
                     Módulos habitacionais termoacusticos projetadas para operações industriais e áreas administrativas. 
-                    Produção sob demanda seguindo especificações técnicas rigorosas.
+                    Construção modular sob demanda seguindo especificações técnicas rigorosas.
                 </p>
 
                 <ul class="app-list">
@@ -302,60 +272,35 @@
                     <li class="app-item"><i class="fas fa-users"></i> Vestiários</li>
                     <li class="app-item"><i class="fas fa-bed"></i> Alojamentos</li>
                     <li class="app-item"><i class="fas fa-coffee"></i> Refeitórios</li>
-		    <li class="app-item"><i class="fas fa-tools"></i> Almoxarifado</li>
-		    <li class="app-item"><i class="fas fa-coffee"></i> Ferramentaria</li>
-		    <li class="app-item"><i class="fas fa-tools"></i> Oficinas</li>	
+				    <li class="app-item"><i class="fas fa-tools"></i> Almoxarifado</li>
+		   			<li class="app-item"><i class="fas fa-coffee"></i> Ferramentaria</li>
+		    		<li class="app-item"><i class="fas fa-store"></i> Pop-up Stores</li>
                 </ul>
 
-                <button class="btn-card" onclick="toggleStock()">
+                <a href="https://drive.google.com/drive/folders/10lKzJaR62oUnQV41xhigrTJb3-tP-pgU?usp=drive_link" target="_blank" class="btn-card">
                     <i class="fas fa-box-open"></i> Ver Pronta Entrega
-                </button>
+                </a>
             </div>
-
-            <div class="stock-drawer" id="stock-drawer">
-                <div class="stock-content">
-                    <div class="stock-title">
-                        <i class="fas fa-bolt"></i> Disponível no Pátio
-                    </div>
-                    <div class="stock-list">
-                        <div class="stock-item">
-                            <div class="item-info">
-                                <h4>Módulo 2,40 x 6,00m</h4>
-                                <p>Isolamento termoacútico • Desmontavel</p>
-                            </div>
-                            <button class="btn-small" onclick="toggleModal()">Consultar</button>
-                        </div>
-                        <div class="stock-item">
-                            <div class="item-info">
-                                <h4>Módulo 3,00 x 6,00m</h4>
-                                <p>Isolamento termoacútico • Desmontavel</p>
-                            </div>
-                            <button class="btn-small" onclick="toggleModal()">Consultar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>
+            </article>
 
         <article class="product-card reveal">
             <div class="card-body">
                 <span class="status-badge badge-signature"><i class="fas fa-star"></i> Linha Signature</span>
                 <h2 class="card-title">Lofts & Hospitalidade</h2>
                 <p class="card-text">
-                    Soluções de design premium para hotelaria rural, glamping e Casa Container.
+                    Soluções de design premium para hotelaria rural, glamping e Tyne House.
                     Acabamento refinado e integração com a natureza.
                 </p>
 
                 <ul class="app-list">
-                    	<li class="app-item"><i class="fas fa-home"></i> Lofts Modulares</li>
+                    <li class="app-item"><i class="fas fa-home"></i> Lofts Modulares</li>
                    	<li class="app-item"><i class="fas fa-campground"></i> Tine House</li>
-                    	<li class="app-item"><i class="fas fa-tree"></i> A frame Modular</li>
-			<li class="app-item"><i class="fas fa-store"></i> Casa Container</li>
-                    	<li class="app-item"><i class="fas fa-store"></i> Pop-up Stores</li>
-			<li class="app-item"><i class="fas fa-store"></i> Glamping</li>
+                    <li class="app-item"><i class="fas A frame Modular"></i> A frame Modular</li>
+					<li class="app-item"><i class="fas fa-store"></i> Casa Container</li>
+                    <li class="app-item"><i class="fas fa-store"></i> Glamping</li>
                 </ul>
 
-                <a href="https://drive.google.com/drive/folders/10lKzJaR62oUnQV41xhigrTJb3-tP-pgU?usp=sharing" target="_blank" class="btn-card btn-external">
+                <a href="https://www.instagram.com/nortemodular/" target="_blank" class="btn-card btn-external">
                     Ver Catálogo Visual <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 5px;"></i>
                 </a>
             </div>
@@ -365,7 +310,7 @@
 
     <div class="footer-cta">
         <p>Todos os sistemas permitem customização completa.</p>
-        <button class="btn-struct" onclick="toggleModal()">Desejo estruturar meu módulo personalziado</button>
+        <button class="btn-struct" onclick="toggleModal()">Desejo estruturar meu módulo personalizado</button>
     </div>
 
     <a href="https://wa.me/5531999227618" class="whatsapp-float" target="_blank">
@@ -393,7 +338,7 @@
     </div>
 
     <script>
-        // --- 1. CONFIGURAÇÃO DO TEMA (Igual index.html) ---
+        // CONFIGURAÇÃO DO TEMA E MENU
         const themeBtn = document.getElementById('theme-btn');
         const themeIcon = themeBtn.querySelector('i');
         const htmlElement = document.documentElement;
@@ -418,17 +363,7 @@
             setTheme(currentTheme === 'dark' ? 'light' : 'dark');
         });
 
-        // --- 2. LOGICA DA GAVETA (ACCORDION) DO CARD 1 ---
-        function toggleStock() {
-            const drawer = document.getElementById('stock-drawer');
-            if (drawer.style.maxHeight) {
-                drawer.style.maxHeight = null; // Fecha
-            } else {
-                drawer.style.maxHeight = drawer.scrollHeight + "px"; // Abre altura exata
-            }
-        }
-
-        // --- 3. MODAL & COPY EMAIL ---
+        // MODAL & COPY EMAIL
         const modal = document.getElementById('contact-modal');
         function toggleModal() { modal.classList.toggle('active'); }
         modal.addEventListener('click', (e) => { if (e.target === modal) toggleModal(); });
@@ -444,7 +379,7 @@
             });
         }
 
-        // --- 4. ANIMAÇÃO DE ENTRADA (REVEAL) ---
+        // ANIMAÇÃO DE ENTRADA (REVEAL)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -454,7 +389,6 @@
             });
         });
         
-        // Aplica o estilo inicial de reveal
         document.querySelectorAll('.product-card').forEach((el) => {
             el.style.opacity = "0";
             el.style.transform = "translateY(20px)";
