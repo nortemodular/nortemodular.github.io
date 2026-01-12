@@ -311,6 +311,109 @@
             .card-icon { font-size: 2.2rem; }
             .btn-plus { top: 1.5rem; right: 1.5rem; width: 40px; height: 40px; }
         }
+        /* --- ESTILO DO MODAL HUD --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px); /* Efeito vidro */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-content {
+    background: var(--bg-card, #121A21);
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+    padding: 3rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: translateY(20px) scale(0.95);
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px; right: 15px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.modal-close:hover { color: var(--primary); transform: rotate(90deg); }
+
+.modal-header h3 {
+    font-family: 'Space Grotesk';
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.03);
+    color: var(--text-main);
+    cursor: pointer;
+    font-family: 'Space Grotesk';
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.contact-btn:hover {
+    border-color: var(--primary);
+    background: rgba(0, 229, 255, 0.05);
+    transform: translateX(5px);
+}
+
+.contact-btn.whatsapp { border-left: 4px solid #25D366; }
+.contact-btn.email { border-left: 4px solid var(--primary); }
+
+.status-indicator {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dot {
+    width: 8px; height: 8px;
+    background: #25D366;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #25D366;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
@@ -326,7 +429,8 @@
         <div class="nav-actions">
             <nav>
                 <a href="#" class="nav-link">Sobre</a>
-                <a href="#" class="nav-link">Contato</a>
+                <a href="javascript:void(0)" onclick="toggleModal()" class="nav-item">Contato</a>
+            
             </nav>
 
             <button class="theme-toggle" id="theme-btn" aria-label="Alternar Tema">
@@ -429,9 +533,56 @@
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
             });
         });
+        /* --- LÓGICA DO MODAL --- */
+const modal = document.getElementById('contact-modal');
+
+// Função para abrir/fechar
+function toggleModal() {
+    modal.classList.toggle('active');
+}
+
+// Fechar se clicar fora
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) toggleModal();
+});
+
+// Função Inteligente de Copiar E-mail
+function copyEmail() {
+    const emailText = document.getElementById('email-text').innerText;
+    navigator.clipboard.writeText(emailText).then(() => {
+        alert('E-mail copiado para a área de transferência! 🚀');
+    });
+}
     </script>
+    <div id="contact-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="toggleModal()"><i class="fas fa-times"></i></button>
+        
+        <div class="modal-header">
+            <h3><i class="fas fa-terminal"></i> INICIAR CONEXÃO</h3>
+            <p>Escolha o canal de comunicação para estruturar seu projeto.</p>
+        </div>
+
+        <div class="contact-options">
+            <a href="https://wa.me/5531999227618" target="_blank" class="contact-btn whatsapp">
+                <i class="fab fa-whatsapp"></i> Iniciar Chat Rápido
+            </a>
+
+            <div class="contact-btn email" onclick="copyEmail()">
+                <i class="fas fa-envelope"></i> 
+                <span id="email-text">contato@nortemodular.com.br</span>
+                <i class="fas fa-copy copy-icon"></i>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <p class="status-indicator"><span class="dot"></span> Sistema Online - Resposta em até 2h</p>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+
 
 
 
