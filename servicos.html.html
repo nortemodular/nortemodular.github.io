@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços | Norte Modular</title>
+    
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 1. CORE VARIABLES (Mesmas do Index) --- */
+        :root {
+            --primary: #00E5FF;
+            --secondary: #94A3B8;
+            --bg-body: #0B1116;
+            --bg-card: rgba(18, 26, 33, 0.7);
+            --text-main: #FFFFFF;
+            --text-muted: #8899A6;
+            --border: rgba(0, 229, 255, 0.15);
+            --ease: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-body: #F0F4F8;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-main: #0F172A;
+            --text-muted: #475569;
+            --border: rgba(0, 152, 166, 0.2);
+            --primary: #008B99;
+        }
+
+        /* --- 2. BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            transition: 0.5s var(--ease);
+        }
+
+        h1, h2, h3, h4, .tech-font { font-family: 'Space Grotesk', sans-serif; }
+        ul { list-style: none; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- 3. BACKGROUND GRID --- */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        /* --- 4. HEADER (Idêntico ao Index) --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid var(--border);
+            background: rgba(11, 17, 22, 0.5);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-img { height: 50px; width: auto; } /* Ajustado */
+
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        
+        .nav-item {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            transition: 0.3s;
+        }
+        .nav-item:hover, .nav-item.active { color: var(--primary); }
+
+        .theme-toggle {
+            background: transparent; border: 1px solid var(--border);
+            color: var(--text-muted); width: 40px; height: 40px;
+            border-radius: 50%; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            transition: 0.3s;
+        }
+        .theme-toggle:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* --- 5. HERO SECTION --- */
+        .page-hero {
+            text-align: center;
+            padding: 6rem 1rem 4rem;
+        }
+
+        .sys-label {
+            font-family: 'Space Grotesk';
+            font-size: 0.8rem;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- 6. SERVICES GRID (Os 3 Pilares) --- */
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary); /* Identidade Visual */
+            border-radius: 8px;
+            padding: 2.5rem;
+            transition: 0.4s var(--ease);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Lista de tópicos dentro do card */
+        .tech-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .tech-list li:last-child { border-bottom: none; }
+        .tech-list i { color: var(--primary); font-size: 0.8rem; }
+
+        /* --- 7. CAPABILITIES MATRIX (Palavras Chave) --- */
+        .matrix-section {
+            padding: 6rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .matrix-header { margin-bottom: 3rem; border-left: 4px solid var(--primary); padding-left: 1rem; }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .matrix-chip {
+            background: rgba(0, 229, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Space Grotesk';
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.3s;
+            cursor: default;
+        }
+        
+        .matrix-chip:hover {
+            background: rgba(0, 229, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .matrix-chip i { opacity: 0.5; }
+
+        /* --- 8. TARGET & CTA --- */
+        .target-section {
+            background: linear-gradient(to bottom, transparent, rgba(0, 229, 255, 0.05));
+            padding: 5rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .target-grid {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .target-item { text-align: center; }
+        .target-item h4 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.5rem; }
+        .target-item p { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .btn-cta {
+            display: inline-block;
+            background: var(--primary);
+            color: #000;
+            padding: 1rem 3rem;
+            font-family: 'Space Grotesk';
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            transition: 0.3s;
+            margin-top: 2rem;
+        }
+        
+        .btn-cta:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* --- 9. RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .nav-links { display: none; } /* Mobile Menu simplificado para este exemplo */
+            .target-grid { gap: 2rem; flex-direction: column; }
+        }
+
+        /* Animação Scroll */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <header>
+        <a href="index.html">
+            <img src="assets/logo-dark.png" alt="Norte Modular" class="logo-img" id="nav-logo">
+        </a>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="servicos.html" class="nav-item active">Serviços</a>
+            <a href="#" class="nav-item">Contato</a>
+        </nav>
+        <button class="theme-toggle" id="theme-btn">
+            <i class="fas fa-sun"></i>
+        </button>
+    </header>
+
+    <section class="page-hero reveal">
+        <span class="sys-label">System.Config.v2</span>
+        <h1 class="hero-title">Gestão de Produto &<br>Engenharia Modular</h1>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; margin-top: 1rem;">
+            Plataforma completa de estruturação industrial. Do conceito à operação escalável.
+        </p>
+    </section>
+
+    <section class="services-container">
+        
+        <div class="service-card reveal">
+            <i class="fas fa-chart-network card-icon"></i>
+            <h3 class="card-title">Gestão de Produto (PM)</h3>
+            <p class="card-desc">
+                Transformamos ideias soltas em produtos viáveis. Gerenciamos o ciclo de vida completo para garantir fit de mercado.
+            </p>
+            <ul class="tech-list">
+                <li><i class="fas fa-check"></i> Comportamento do Consumidor</li>
+                <li><i class="fas fa-check"></i> Marketing de Produto</li>
+                <li><i class="fas fa-check"></i> Lean Startup & MVP</li>
+                <li><i class="fas fa-check"></i> Estratégia de Precificação</li>
+            </ul>
+        </div>
+
+        <div class="service-card reveal">
+            <i class="fas fa-flask card-icon"></i>
+            <h3 class="card-title">P&D Industrial</h3>
+            <p class="card-desc">
+                Pesquisa aplicada e materialização técnica. Onde a engenharia encontra a inovação modular.
+            </p>
+            <ul class="tech-list">
+                <li><i class="fas fa-check"></i> Processo Criativo & Ideação</li>
+                <li><i class="fas fa-check"></i> Novas Tecnologias</li>
+                <li><i class="fas fa-check"></i> Gestão da Inovação</li>
+                <li><i class="fas fa-check"></i> Prototipagem Rápida</li>
+            </ul>
+        </div>
+
+        <div class="service-card reveal">
+            <i class="fas fa-layer-group card-icon"></i>
+            <h3 class="card-title">Design & Operações</h3>
+            <p class="card-desc">
+                Otimização contínua. Melhoramos o que já existe e garantimos que a fábrica entregue qualidade.
+            </p>
+            <ul class="tech-list">
+                <li><i class="fas fa-check"></i> Design Incremental</li>
+                <li><i class="fas fa-check"></i> Gestão da Qualidade (QA)</li>
+                <li><i class="fas fa-check"></i> Metodologia Ágil</li>
+                <li><i class="fas fa-check"></i> Gestão Organizacional</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <section class="matrix-section reveal">
+        <div class="matrix-header">
+            <h3>Matriz de Competências</h3>
+            <p style="color: var(--text-muted)">Stack técnico e metodológico utilizado nos projetos.</p>
+        </div>
+        
+        <div class="matrix-grid">
+            <div class="matrix-chip"><i class="fas fa-code-branch"></i> Metodologia Ágil</div>
+            <div class="matrix-chip"><i class="fas fa-users"></i> User Experience</div>
+            <div class="matrix-chip"><i class="fas fa-rocket"></i> Lean Startup</div>
+            <div class="matrix-chip"><i class="fas fa-search"></i> Mapeamento de XP</div>
+            <div class="matrix-chip"><i class="fas fa-cogs"></i> Design de Produto</div>
+            <div class="matrix-chip"><i class="fas fa-industry"></i> Operações & Serviços</div>
+            <div class="matrix-chip"><i class="fas fa-shield-alt"></i> Gestão da Qualidade</div>
+            <div class="matrix-chip"><i class="fas fa-microchip"></i> Tecnologia Industrial</div>
+        </div>
+    </section>
+
+    <section class="target-section reveal">
+        <h2 style="margin-bottom: 2rem;">Para quem projetamos</h2>
+        
+        <div class="target-grid">
+            <div class="target-item">
+                <h4><i class="fas fa-building"></i></h4>
+                <p>Indústrias</p>
+            </div>
+            <div class="target-item">
+                <h4><i class="fas fa-cubes"></i></h4>
+                <p>Modulares</p>
+            </div>
+            <div class="target-item">
+                <h4><i class="fas fa-expand-arrows-alt"></i></h4>
+                <p>Escala</p>
+            </div>
+        </div>
+
+        <a href="https://wa.me/5500000000000" class="btn-cta">
+            <i class="fab fa-whatsapp" style="margin-right: 10px;"></i> Estruturar Produto
+        </a>
+    </section>
+
+    <script>
+        // Mesma lógica do index.html para manter consistência
+        const themeBtn = document.getElementById('theme-btn');
+        const themeIcon = themeBtn.querySelector('i');
+        const htmlElement = document.documentElement;
+        const logoImg = document.getElementById('nav-logo');
+
+        // Caminhos das Logos PNG
+        const LOGO_DARK = 'assets/logo-dark.png';
+        const LOGO_LIGHT = 'assets/logo-light.png';
+
+        // Carregar Tema Salvo
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        function setTheme(theme) {
+            htmlElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+
+            if (theme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                logoImg.src = LOGO_DARK;
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                logoImg.src = LOGO_LIGHT;
+            }
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
